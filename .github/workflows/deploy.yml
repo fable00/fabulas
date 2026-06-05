@@ -22,11 +22,16 @@ jobs:
 
       - name: Build Astro
         run: npm run build
+        env:
+          NODE_ENV: production
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
         
       - name: deploy2nekoweb
         uses: indiefellas/deploy2nekoweb@main
         with:
-          nekoweb-api-key: ${{ secrets.API_KEY }}
+          nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
           nekoweb-domain: 'fabulas.nekoweb.org'
           nekoweb-username: 'fabulas'
           directory: 'dist'
