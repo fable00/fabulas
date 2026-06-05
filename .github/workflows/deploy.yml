@@ -1,0 +1,32 @@
+name: Deploy Fabulas to Nekoweb
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Astro
+        run: npm run build
+        
+      - name: deploy2nekoweb
+        uses: indiefellas/deploy2nekoweb@main
+        with:
+          nekoweb-api-key: ${{ secrets.API_KEY }}
+          nekoweb-domain: 'fabulas.nekoweb.org'
+          nekoweb-username: 'fabulas'
+          directory: 'dist'
